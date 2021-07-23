@@ -28,7 +28,7 @@ use super::*;
     /// 检查from str一致性
     #[test]
     fn eq_test_from_str() {
-        let first = Guuid::from_string("1234567890abcdef").unwrap();
+        let first = Guuid::from_string("00002YPM7N3N9A5XP0NRR46QB4").unwrap();
         let second = Guuid::from_string(&first.to_string()).unwrap();
 
         assert_eq!(first, second);

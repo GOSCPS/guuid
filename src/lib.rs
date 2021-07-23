@@ -18,9 +18,11 @@ mod tests;
 /// 如果想要储存，有两种方式
 /// - 储存为字符串
 /// - 储存为字节数组
+/// 
 /// 即使用
-/// - 使用 to_string 及其对应函数 from_string
-/// - 使用 to_bytes 及其对应函数 from_bytes
+/// 
+/// - 使用 `to_string` 及其对应函数 `from_string`
+/// - 使用 `to_bytes` 及其对应函数 `from_bytes`
 #[derive(Clone,Eq,Debug)]
 pub struct Guuid{
     /// 以毫秒为单位的UNIX时间戳
@@ -87,27 +89,25 @@ impl Guuid{
     /// 
     /// 仅在std或者alloc环境下可用
     #[cfg(not(feature = "no_std"))]
-    pub fn from_string(str: &str) -> Result<Guuid,core::num::ParseIntError> {
-        match u128::from_str_radix(str,16){
-            Ok(ok) => Ok(Guuid::from_u128(ok)),
-            Err(err) => Err(err)
+    pub fn from_string(str: &str) -> Option<Guuid> {
+        use base32::decode;
+        use std::convert::TryInto;
+
+        match decode(base32::Alphabet::Crockford, str){
+            Some(ok) => Some(Guuid::from_bytes(ok.try_into().unwrap())),
+
+            None => None
         }
     }
 
     /// 将Guuid转换为字符串
     /// 
     /// 仅在std或alloc环境下可用
-    #[cfg(any(feature = "std",feature = "alloc"))]
+    #[cfg(not(feature = "no_std"))]
     pub fn to_string(&self) -> String {
-        if cfg!(feature = "std"){
-            format!("{:X}", self.as_u128())
-        }
-        else if cfg!(feature = "alloc"){
-            format_args!("{:X}",self.as_u128()).to_string()
-        }
-        else{
-            panic!("Compile features setting wrong!");
-        }
+        use base32::encode;
+
+        encode(base32::Alphabet::Crockford, &self.to_bytes())
     }
     /// 生成guuid
     /// 
