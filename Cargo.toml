@@ -1,0 +1,13 @@
+[package]
+name = "guuid"
+version = "1.0.0"
+edition = "2018"
+authors = ["GOSCPS <goscps@foxmail.com>","MingMoe <me@kawayi.moe>"]
+
+[dependencies]
+rand = {version = "0.8",features = ["std","getrandom","std_rng"],optional = true}
+
+[features]
+no_std = []
+alloc = []
+std = ["rand"]
