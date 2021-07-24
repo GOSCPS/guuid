@@ -15,6 +15,9 @@ use alloc::string::String;
 #[cfg(not(any(feature = "no_std",features = "alloc")))]
 extern crate std as core;
 
+#[cfg(not(any(feature = "no_std",features = "alloc")))]
+extern crate base32;
+
 // 单元测试
 #[cfg(test)]
 mod tests;
