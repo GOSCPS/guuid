@@ -4,9 +4,16 @@
 //=============================================
 
 // 判断是否不启用标准库
-#![cfg_attr(feature = "no_std", no_std)]
+#![cfg_attr(any(feature = "no_std",features = "alloc"), no_std)]
 
+#[cfg(feature = "alloc")]
 extern crate alloc;
+
+#[cfg(feature = "alloc")]
+use alloc::string::String;
+
+#[cfg(not(any(feature = "no_std",features = "alloc")))]
+extern crate std as core;
 
 // 单元测试
 #[cfg(test)]
@@ -91,7 +98,7 @@ impl Guuid{
     #[cfg(not(feature = "no_std"))]
     pub fn from_string(str: &str) -> Option<Guuid> {
         use base32::decode;
-        use std::convert::TryInto;
+        use core::convert::TryInto;
 
         match decode(base32::Alphabet::Crockford, str){
             Some(ok) => Some(Guuid::from_bytes(ok.try_into().unwrap())),
@@ -132,7 +139,7 @@ impl Guuid{
     /// 仅在std环境下使用
     #[cfg(feature = "std")]
     pub fn gen_guuid() -> Result<Guuid,std::time::SystemTimeError>{
-        use std::convert::TryInto;
+        use core::convert::TryInto;
 
         match std::time::SystemTime::now().duration_since(std::time::SystemTime::UNIX_EPOCH) {
             Ok(n) => Ok(Guuid::gen_guuid_from_time(n.as_millis().try_into().unwrap())),

@@ -4,7 +4,10 @@ version = "1.0.0"
 edition = "2018"
 authors = ["GOSCPS <goscps@foxmail.com>","MingMoe <me@kawayi.moe>"]
 license-file = "LICENSE"
+repository = "https://github.com/GOSCPS/guuid"
+homepage = "https://github.com/GOSCPS/guuid"
 readme = "README.md"
+description = "Globally Universally Unique Identifier"
 
 [dependencies]
 rand = {version = "0.8",features = ["std","getrandom","std_rng"],optional = true}

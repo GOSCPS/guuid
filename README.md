@@ -15,3 +15,13 @@ GUUID是GUID和UUID的完美替代品。
   |  大端序储存       | 大端序储存      |
   |  字符串使用Crockford Base32储存   |
 ```
+
+## Features
+ - std
+   - 请在可使用标准库的情况下开启
+ - alloc
+   - 请在可以使用alloc的情况下开启
+ - no_std
+   -  请在不能使用alloc和std的情况下开启
+
+以上三者只能同时开启一个。
